@@ -1,0 +1,4 @@
+import mongoose from 'mongoose';
+const userSchema=new mongoose.Schema({name:{type:String,required:true,trim:true,maxlength:80},email:{type:String,required:true,unique:true,lowercase:true,trim:true},phone:{type:String,default:''},college:{type:String,default:'',maxlength:120},address:{type:String,default:'',maxlength:300},favorites:[{type:mongoose.Schema.Types.ObjectId,ref:'Listing'}],passwordHash:{type:String,required:true,select:false},role:{type:String,enum:['buyer','seller','admin'],default:'buyer'},createdAt:{type:Date,default:Date.now}},{timestamps:true});
+userSchema.methods.toSafeObject=function(){return {_id:this._id,name:this.name,email:this.email,phone:this.phone,college:this.college,address:this.address,role:this.role,createdAt:this.createdAt};};
+export default mongoose.model('User',userSchema);
